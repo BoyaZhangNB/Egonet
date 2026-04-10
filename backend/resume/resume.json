@@ -1,0 +1,34 @@
+{
+  "education": [
+    {
+      "id": "57ce02ea-5206-4be9-a489-720df86d4d80",
+      "title": "UofT",
+      "description": "Engineering Science ",
+      "time": "2024 - 2028"
+    }
+  ],
+  "experience": [
+    {
+      "id": "1eec1a6c-beb3-49a4-9619-fe045d65c0f5",
+      "title": "Rsearcher",
+      "description": "did ML research",
+      "time": "2025"
+    }
+  ],
+  "projects": [
+    {
+      "id": "eec86342-f59d-4cf9-83a6-dc456f97a261",
+      "title": "rover",
+      "description": "placeholder",
+      "time": "2024"
+    }
+  ],
+  "skills": [
+    {
+      "id": "88a60904-a171-4d0d-a7aa-bedb03fb32d1",
+      "title": "c++",
+      "description": "",
+      "time": ""
+    }
+  ]
+}

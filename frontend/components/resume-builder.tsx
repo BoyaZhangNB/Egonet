@@ -42,6 +42,7 @@ export function ResumeBuilder() {
   const [isAdding, setIsAdding] = useState(false)
   const [formData, setFormData] = useState({ title: "", description: "", time: "" })
   const [isExporting, setIsExporting] = useState(false)
+  const isSkillsSection = activeSection === "skills"
 
   const handleAddItem = () => {
     if (!formData.title.trim()) return
@@ -49,8 +50,8 @@ export function ResumeBuilder() {
     const newItem: ResumeItem = {
       id: crypto.randomUUID(),
       title: formData.title,
-      description: formData.description,
-      time: formData.time,
+      description: isSkillsSection ? "" : formData.description,
+      time: isSkillsSection ? "" : formData.time,
     }
 
     setResumeData((prev) => ({
@@ -74,7 +75,12 @@ export function ResumeBuilder() {
       ...prev,
       [activeSection]: prev[activeSection].map((item) =>
         item.id === editingId
-          ? { ...item, title: formData.title, description: formData.description, time: formData.time }
+          ? {
+              ...item,
+              title: formData.title,
+              description: isSkillsSection ? "" : formData.description,
+              time: isSkillsSection ? "" : formData.time,
+            }
           : item
       ),
     }))
@@ -218,18 +224,22 @@ export function ResumeBuilder() {
                   onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
                   className="bg-background"
                 />
-                <Textarea
-                  placeholder="Description"
-                  value={formData.description}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-                  className="min-h-24 bg-background"
-                />
-                <Input
-                  placeholder="Time (e.g., 2023 - Present)"
-                  value={formData.time}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, time: e.target.value }))}
-                  className="bg-background"
-                />
+                {!isSkillsSection && (
+                  <>
+                    <Textarea
+                      placeholder="Description"
+                      value={formData.description}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+                      className="min-h-24 bg-background"
+                    />
+                    <Input
+                      placeholder="Time (e.g., 2023 - Present)"
+                      value={formData.time}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, time: e.target.value }))}
+                      className="bg-background"
+                    />
+                  </>
+                )}
                 <Button onClick={handleAddItem} className="gap-2">
                   <Check className="h-4 w-4" />
                   Save Item
@@ -253,18 +263,22 @@ export function ResumeBuilder() {
                       onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
                       className="bg-background"
                     />
-                    <Textarea
-                      placeholder="Description"
-                      value={formData.description}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-                      className="min-h-24 bg-background"
-                    />
-                    <Input
-                      placeholder="Time"
-                      value={formData.time}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, time: e.target.value }))}
-                      className="bg-background"
-                    />
+                    {!isSkillsSection && (
+                      <>
+                        <Textarea
+                          placeholder="Description"
+                          value={formData.description}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+                          className="min-h-24 bg-background"
+                        />
+                        <Input
+                          placeholder="Time"
+                          value={formData.time}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, time: e.target.value }))}
+                          className="bg-background"
+                        />
+                      </>
+                    )}
                     <div className="flex gap-2">
                       <Button onClick={handleSaveEdit} size="sm" className="gap-2">
                         <Save className="h-4 w-4" />
@@ -288,11 +302,11 @@ export function ResumeBuilder() {
                       <div className="flex-1">
                         <div className="mb-1 flex items-center gap-4">
                           <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
-                          {item.time && (
+                          {!isSkillsSection && item.time && (
                             <span className="text-sm text-primary">{item.time}</span>
                           )}
                         </div>
-                        {item.description && (
+                        {!isSkillsSection && item.description && (
                           <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
                         )}
                       </div>
